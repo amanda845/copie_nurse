@@ -136,6 +136,47 @@ app.delete('/api/nurses/:id', auth, (req, res) => {
   res.status(204).end()
 })
 
+app.get('/api/patients', auth, (_req, res) => {
+  const patients = db.prepare(`SELECT id, first_name AS firstName, last_name AS lastName, birth_date AS birthDate,
+    sex, blood_group AS bloodGroup, allergies, room, bed, service, status, created_at AS createdAt, updated_at AS updatedAt
+    FROM patients ORDER BY last_name, first_name`).all()
+  res.json({ patients })
+})
+
+app.get('/api/patients/:id', auth, (req, res) => {
+  const patient = db.prepare(`SELECT id, first_name AS firstName, last_name AS lastName, birth_date AS birthDate,
+    sex, blood_group AS bloodGroup, allergies, room, bed, service, status, created_at AS createdAt, updated_at AS updatedAt
+    FROM patients WHERE id = ?`).get(req.params.id)
+  if (!patient) return res.status(404).json({ error: 'Dossier patient introuvable.' })
+  res.json({ patient })
+})
+
+app.post('/api/patients', auth, (req, res) => {
+  const schema = z.object({ id: z.string().trim().min(3).optional(), firstName: z.string().trim().min(1), lastName: z.string().trim().min(1), birthDate: z.string().optional().default(''), sex: z.string().optional().default(''), bloodGroup: z.string().optional().default(''), allergies: z.string().optional().default(''), room: z.string().optional().default(''), bed: z.string().optional().default(''), service: z.string().optional().default(''), status: z.string().optional().default('Stable') })
+  const parsed = schema.safeParse(req.body)
+  if (!parsed.success) return res.status(400).json({ error: 'Dossier patient invalide.' })
+  const id = parsed.data.id || `DEM-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`
+  const timestamp = now()
+  try {
+    db.prepare(`INSERT INTO patients (id, first_name, last_name, birth_date, sex, blood_group, allergies, room, bed, service, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+      .run(id, parsed.data.firstName, parsed.data.lastName, parsed.data.birthDate, parsed.data.sex, parsed.data.bloodGroup, parsed.data.allergies, parsed.data.room, parsed.data.bed, parsed.data.service, parsed.data.status, timestamp, timestamp)
+    audit(req, { action: 'Dossier patient créé', type: 'patient', entity: 'patient', entityId: id, target: `${parsed.data.firstName} ${parsed.data.lastName}` })
+    res.status(201).json({ id })
+  } catch { res.status(409).json({ error: 'Un dossier patient avec cet identifiant existe déjà.' }) }
+})
+
+app.patch('/api/patients/:id', auth, (req, res) => {
+  const schema = z.object({ firstName: z.string().trim().min(1), lastName: z.string().trim().min(1), birthDate: z.string().optional().default(''), sex: z.string().optional().default(''), bloodGroup: z.string().optional().default(''), allergies: z.string().optional().default(''), room: z.string().optional().default(''), bed: z.string().optional().default(''), service: z.string().optional().default(''), status: z.string().optional().default('Stable') })
+  const parsed = schema.safeParse(req.body)
+  const before = db.prepare('SELECT * FROM patients WHERE id = ?').get(req.params.id)
+  if (!before) return res.status(404).json({ error: 'Dossier patient introuvable.' })
+  if (!parsed.success) return res.status(400).json({ error: 'Dossier patient invalide.' })
+  db.prepare(`UPDATE patients SET first_name=?, last_name=?, birth_date=?, sex=?, blood_group=?, allergies=?, room=?, bed=?, service=?, status=?, updated_at=? WHERE id=?`)
+    .run(parsed.data.firstName, parsed.data.lastName, parsed.data.birthDate, parsed.data.sex, parsed.data.bloodGroup, parsed.data.allergies, parsed.data.room, parsed.data.bed, parsed.data.service, parsed.data.status, now(), req.params.id)
+  audit(req, { action: 'Dossier patient modifié', type: 'patient', entity: 'patient', entityId: req.params.id, target: `${parsed.data.firstName} ${parsed.data.lastName}`, details: { before, after: parsed.data } })
+  res.json({ ok: true })
+})
+
 app.get('/api/activity', auth, (req, res) => {
   const limit = Math.min(Number(req.query.limit || 100), 500)
   const onlyMine = req.query.mine === 'true'
