@@ -4,7 +4,10 @@ import { randomUUID } from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
 
-const dataDir = process.env.DATA_DIR || path.resolve(process.cwd(), 'data')
+// Vercel interdit l’écriture dans le dossier du projet : /tmp est le seul
+// emplacement temporairement accessible dans une fonction serverless.
+// Pour une persistance durable, DATA_DIR doit pointer vers une vraie base externe.
+const dataDir = process.env.DATA_DIR || (process.env.VERCEL ? '/tmp/nurseflow-data' : path.resolve(process.cwd(), 'data'))
 fs.mkdirSync(dataDir, { recursive: true })
 
 const db = new DatabaseSync(path.join(dataDir, process.env.DB_FILE || 'nurseflow.sqlite'))
