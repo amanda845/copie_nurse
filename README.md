@@ -148,6 +148,16 @@ Pour déployer sur Vercel :
 3. Commande de build : `npm run build`
 4. Répertoire de sortie : `dist`
 
+Le backend est exposé par la fonction serverless `api/[...path].js`. Dans les variables d’environnement du projet Vercel, ajouter obligatoirement :
+
+```env
+JWT_SECRET=<secret-long-et-aleatoire>
+SEED_NURSE_PASSWORD=<mot-de-passe-de-seed-a-changer>
+CLIENT_ORIGIN=https://<domaine-vercel>
+```
+
+`VITE_API_URL` peut rester vide lorsque le frontend et la fonction API sont sur le même domaine : le client utilise alors automatiquement `/api`. Si le backend est déployé sur un domaine séparé, définir `VITE_API_URL=https://<domaine-backend>/api`.
+
 ---
 
 ## 👩‍⚕️ Fonctionnement — Prise de poste

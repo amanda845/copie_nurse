@@ -1,5 +1,7 @@
 import 'dotenv/config'
 import express from 'express'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import cors from 'cors'
 import helmet from 'helmet'
 import bcrypt from 'bcryptjs'
@@ -355,6 +357,10 @@ app.use((error, _req, res, _next) => {
   res.status(500).json({ error: 'Erreur interne du serveur.' })
 })
 
-app.listen(port, '0.0.0.0', () => {
-  console.log(`NurseFlow API listening on http://0.0.0.0:${port}`)
-})
+export { app }
+
+if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
+  app.listen(port, '0.0.0.0', () => {
+    console.log(`NurseFlow API listening on http://0.0.0.0:${port}`)
+  })
+}
