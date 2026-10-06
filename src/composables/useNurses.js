@@ -1,4 +1,11 @@
 import { ref, computed } from 'vue'
+import {
+  apiCreateNurse,
+  apiDeleteNurse,
+  apiListNurses,
+  apiStartShift,
+  apiUpdateNurse,
+} from '@/services/api'
 
 const NURSES_STORAGE_KEY = 'nurseflow_hospital_nurses'
 const ACTIVE_NURSE_STORAGE_KEY = 'nurseflow_active_nurse_id'
@@ -133,6 +140,22 @@ const nurses = ref(loadNurses())
 const activeNurseId = ref(loadActiveNurseId())
 const activityLog = ref(loadActivityLog())
 
+// Le mode local reste disponible hors connexion, mais toute session connectée
+// est synchronisée avec l’API et reçoit un jeton signé.
+async function syncWithBackend() {
+  try {
+    await apiStartShift(activeNurseId.value)
+    const response = await apiListNurses()
+    if (response?.nurses?.length) {
+      nurses.value = response.nurses
+      persistNurses()
+    }
+  } catch (error) {
+    // L’interface reste utilisable en mode local si l’API est arrêtée.
+  }
+}
+syncWithBackend()
+
 function persistNurses() {
   try {
     localStorage.setItem(NURSES_STORAGE_KEY, JSON.stringify(nurses.value))
@@ -183,6 +206,7 @@ export function useNurses() {
           entityId: selected.id,
         })
       }
+      apiStartShift(id).catch(() => {})
     }
   }
 
@@ -210,6 +234,7 @@ export function useNurses() {
 
     nurses.value.push(newNurse)
     persistNurses()
+    apiCreateNurse(newNurse).catch(() => {})
     logActivity({
       type: 'staff',
       action: 'Soignant ajouté à l’équipe',
@@ -233,6 +258,7 @@ export function useNurses() {
     }
     nurses.value = nurses.value.filter(n => n.id !== id)
     persistNurses()
+    apiDeleteNurse(id).catch(() => {})
     logActivity({
       type: 'staff',
       action: 'Soignant retiré de l’équipe',
@@ -261,6 +287,12 @@ export function useNurses() {
       initials,
     }
     persistNurses()
+    apiUpdateNurse(id, {
+      name: nurses.value[idx].name,
+      role: nurses.value[idx].role,
+      service: nurses.value[idx].service,
+      badge: nurses.value[idx].badge,
+    }).catch(() => {})
     logActivity({
       type: 'staff',
       action: 'Profil soignant modifié',

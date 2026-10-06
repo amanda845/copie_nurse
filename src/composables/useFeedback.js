@@ -1,5 +1,6 @@
 ﻿import { ref, computed } from 'vue'
 import { useNurses } from './useNurses'
+import { apiCreateFeedback } from '@/services/api'
 
 const STORAGE_KEY = 'nurseflow_feedbacks'
 
@@ -38,6 +39,12 @@ export function useFeedback() {
       displayDate: `${now.toLocaleDateString('fr-FR')} à ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`,
     })
     persist()
+    apiCreateFeedback({
+      rating: data.rating,
+      category: data.category,
+      message: data.message,
+      page: data.page || '',
+    }).catch(() => {})
     logActivity({
       type: 'feedback',
       action: 'Feedback utilisateur envoyé',
