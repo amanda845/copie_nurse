@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { getAccessToken } from '@/services/api'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -60,6 +61,11 @@ const router = createRouter({
       component: () => import('@/views/FeedbacksAdminView.vue'),
     },
     {
+      path: '/audit-log',
+      name: 'audit-log',
+      component: () => import('@/views/AuditLogView.vue'),
+    },
+    {
       path: '/profile',
       name: 'profile',
       component: () => import('@/views/ProfileView.vue'),
@@ -68,6 +74,13 @@ const router = createRouter({
   scrollBehavior() {
     return { top: 0, behavior: 'smooth' }
   },
+})
+
+router.beforeEach((to) => {
+  const publicRoutes = ['home', 'login']
+  if (!publicRoutes.includes(to.name) && !getAccessToken()) return { name: 'login' }
+  if (to.name === 'login' && getAccessToken()) return { name: 'dashboard' }
+  return true
 })
 
 export default router

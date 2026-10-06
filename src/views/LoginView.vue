@@ -3,43 +3,59 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import AppIcon from '@/components/common/AppIcon.vue'
 import AppButton from '@/components/common/AppButton.vue'
-import AppAvatar from '@/components/common/AppAvatar.vue'
 import AppLogo from '@/components/common/AppLogo.vue'
+import { apiLogin, apiRegister } from '@/services/api'
 import { useNurses } from '@/composables/useNurses'
 import { useToast } from '@/composables/useToast'
 
 const router = useRouter()
-const { nurses, activeNurse, setActiveNurse, addNurse } = useNurses()
+const { nurses, setActiveNurse } = useNurses()
 const { notify } = useToast()
 
-const showAddNurse = ref(false)
-const newName = ref('')
-const newRole = ref('Infirmier(e) DE')
-const newService = ref('Service Médecine 2')
-const newBadge = ref('')
+const mode = ref('login')
+const loading = ref(false)
+const errorMessage = ref('')
+const form = ref({
+  email: 'salima.mansouri@nurseflow.local',
+  password: 'NurseFlow-ChangeMe!2026',
+  name: '',
+  role: 'Infirmier(e) DE',
+  service: 'Service Médecine 2',
+  badge: '',
+})
 
-function pickNurseAndEnter(nurse) {
-  setActiveNurse(nurse.id)
-  notify(`Bienvenue ${nurse.name} — Prise de service validée`)
-  router.push({ name: 'dashboard' })
+function switchMode(nextMode) {
+  mode.value = nextMode
+  errorMessage.value = ''
+  if (nextMode === 'login') {
+    form.value.email = ''
+    form.value.password = ''
+  } else {
+    form.value.email = ''
+    form.value.password = ''
+  }
 }
 
-function enterDirectly() {
-  notify(`Accès direct aux dossiers — Connecté en tant que ${activeNurse.value.name}`)
-  router.push({ name: 'dashboard' })
+async function submit() {
+  errorMessage.value = ''
+  loading.value = true
+  try {
+    const nurse = mode.value === 'login'
+      ? await apiLogin(form.value.email, form.value.password)
+      : await apiRegister(form.value)
+    setActiveNurse(nurse.id)
+    notify(`Bienvenue ${nurse.name} — session sécurisée ouverte`)
+    router.push({ name: 'dashboard' })
+  } catch (error) {
+    errorMessage.value = error.message || 'Impossible de joindre le serveur d’authentification.'
+  } finally {
+    loading.value = false
+  }
 }
 
-function handleAddNurse() {
-  if (!newName.value.trim()) return
-  const created = addNurse({
-    name: newName.value,
-    role: newRole.value,
-    service: newService.value,
-    badge: newBadge.value,
-  })
-  setActiveNurse(created.id)
-  notify(`Infirmier(e) ${created.name} enregistré(e) avec succès`)
-  router.push({ name: 'dashboard' })
+function useSeedAccount() {
+  form.value.email = 'salima.mansouri@nurseflow.local'
+  form.value.password = 'NurseFlow-ChangeMe!2026'
 }
 </script>
 
@@ -47,7 +63,7 @@ function handleAddNurse() {
   <div class="login-page">
     <div class="login-decoration one" />
     <div class="login-decoration two" />
-    
+
     <div class="login-brand">
       <AppLogo :size="64" />
       <span class="nurseflow-name">
@@ -58,46 +74,38 @@ function handleAddNurse() {
 
     <div class="login-card hospital-shift-card">
       <div class="login-icon">
-        <AppIcon name="users" :size="28" />
+        <AppIcon :name="mode === 'login' ? 'user' : 'users'" :size="28" />
       </div>
-      <h1>Prise de poste soignante</h1>
-      <p>Sélectionnez votre profil ou enregistrez-vous pour signer vos soins et consultations.</p>
+      <h1>{{ mode === 'login' ? 'Log in' : 'Sign in' }}</h1>
+      <p>
+        {{ mode === 'login'
+          ? 'Connectez-vous pour accéder aux dossiers et signer vos actes infirmiers.'
+          : 'Créez votre compte professionnel pour rejoindre l’équipe infirmière.' }}
+      </p>
 
-      <!-- Équipe hospitalière enregistrée -->
-      <div class="shift-nurses-list">
-        <div
-          v-for="n in nurses"
-          :key="n.id"
-          :class="['shift-nurse-card', n.id === activeNurse.id ? 'active-shift' : '']"
-          @click="pickNurseAndEnter(n)"
-        >
-          <AppAvatar :initials="n.initials" :tone="n.tone" large />
-          <div class="snc-info">
-            <div style="display:flex;align-items:center;gap:6px">
-              <strong>{{ n.name }}</strong>
-              <span v-if="n.id === activeNurse.id" class="badge-active-mini">En poste</span>
-            </div>
-            <small>{{ n.role }} · {{ n.service }}</small>
-            <span class="snc-badge">{{ n.badge }}</span>
-          </div>
-          <button type="button" class="btn-shift-action">
-            Prendre le poste <AppIcon name="arrow" :size="14" />
-          </button>
-        </div>
+      <div class="filter-tabs" style="margin: 18px 0">
+        <button :class="mode === 'login' ? 'active' : ''" type="button" @click="switchMode('login')">Log in</button>
+        <button :class="mode === 'register' ? 'active' : ''" type="button" @click="switchMode('register')">Sign in</button>
       </div>
 
-      <!-- Formulaire d'ajout si nouvelle infirmière -->
-      <div v-if="showAddNurse" class="add-nurse-box">
-        <h3>Enregistrer un(e) soignant(e) dans l'hôpital</h3>
-        <form @submit.prevent="handleAddNurse">
-          <label class="field">
-            <span>Nom complet *</span>
-            <input v-model="newName" placeholder="Ex : Sarah Alami" required />
-          </label>
+      <form class="add-nurse-box" style="display:flex;flex-direction:column;gap:12px" @submit.prevent="submit">
+        <label class="field" v-if="mode === 'register'">
+          <span>Nom complet *</span>
+          <input v-model="form.name" placeholder="Ex : Sarah Alami" required />
+        </label>
+        <label class="field">
+          <span>Email professionnel *</span>
+          <input v-model="form.email" type="email" autocomplete="email" placeholder="prenom.nom@hopital.dz" required />
+        </label>
+        <label class="field">
+          <span>Mot de passe *</span>
+          <input v-model="form.password" type="password" autocomplete="current-password" minlength="8" placeholder="8 caractères minimum" required />
+        </label>
+        <template v-if="mode === 'register'">
           <div class="grid-2">
             <label class="field">
               <span>Rôle</span>
-              <select v-model="newRole">
+              <select v-model="form.role">
                 <option>Infirmier(e) DE</option>
                 <option>Infirmier(e) DE (Nuit)</option>
                 <option>Cadre de santé</option>
@@ -106,40 +114,31 @@ function handleAddNurse() {
             </label>
             <label class="field">
               <span>Service</span>
-              <input v-model="newService" placeholder="Ex : Médecine 2" />
+              <input v-model="form.service" required />
             </label>
           </div>
-          <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px">
-            <AppButton variant="secondary" type="button" @click="showAddNurse = false">Annuler</AppButton>
-            <AppButton type="submit" icon="check">Valider et entrer</AppButton>
-          </div>
-        </form>
-      </div>
+          <label class="field">
+            <span>Matricule / Badge *</span>
+            <input v-model="form.badge" placeholder="Ex : BADGE-055" required />
+          </label>
+        </template>
 
-      <!-- Actions rapides en bas de carte -->
-      <div class="login-shift-actions">
-        <button
-          v-if="!showAddNurse"
-          type="button"
-          class="btn-toggle-add-nurse"
-          @click="showAddNurse = true"
-        >
-          <AppIcon name="plus" :size="15" />
-          Nouvel(le) infirmier(e) ? Enregistrer mon profil
-        </button>
-
-        <AppButton class="full-button" variant="secondary" @click="enterDirectly">
-          Accéder directement sans changer de profil
-          <AppIcon name="arrow" :size="16" />
+        <div v-if="errorMessage" class="field-error" role="alert">{{ errorMessage }}</div>
+        <AppButton type="submit" icon="check" :disabled="loading" style="width:100%;justify-content:center">
+          {{ loading ? 'Connexion sécurisée…' : mode === 'login' ? 'Log in' : 'Sign in' }}
         </AppButton>
-      </div>
+      </form>
+
+      <button v-if="mode === 'login'" class="btn-toggle-add-nurse" type="button" @click="useSeedAccount">
+        Utiliser le compte de démonstration infirmier
+      </button>
 
       <div class="secure-text">
-        <AppIcon name="check" :size="14" style="color:var(--green)" />
-        Toutes les modifications et administrations de soins porteront le nom du soignant sélectionné.
+        <AppIcon name="shield" :size="14" style="color:var(--green)" />
+        Chaque modification est signée par l’utilisateur connecté et enregistrée dans le journal serveur.
       </div>
     </div>
 
-    <footer>NurseFlow · Réseau hospitalier privé — Traçabilité soignante garantie</footer>
+    <footer>NurseFlow · Authentification et traçabilité des soins</footer>
   </div>
 </template>

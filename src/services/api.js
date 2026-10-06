@@ -11,6 +11,11 @@ export function setAccessToken(token) {
   else localStorage.removeItem(TOKEN_KEY)
 }
 
+export function clearSession() {
+  setAccessToken('')
+  localStorage.removeItem(NURSE_KEY)
+}
+
 export async function apiRequest(path, options = {}) {
   const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) }
   const token = getAccessToken()
@@ -35,7 +40,23 @@ export async function apiStartShift(nurseId) {
   return payload.nurse
 }
 
+export async function apiLogin(email, password) {
+  const payload = await apiRequest('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) })
+  setAccessToken(payload.token)
+  localStorage.setItem(NURSE_KEY, payload.nurse.id)
+  return payload.nurse
+}
+
+export async function apiRegister(data) {
+  const payload = await apiRequest('/auth/register', { method: 'POST', body: JSON.stringify(data) })
+  setAccessToken(payload.token)
+  localStorage.setItem(NURSE_KEY, payload.nurse.id)
+  return payload.nurse
+}
+
 export const apiListNurses = () => apiRequest('/nurses')
+export const apiListActivity = (params = '') => apiRequest(`/activity${params}`)
+export const apiRecordActivity = (data) => apiRequest('/activity/manual', { method: 'POST', body: JSON.stringify(data) })
 export const apiCreateNurse = (data) => apiRequest('/nurses', { method: 'POST', body: JSON.stringify(data) })
 export const apiUpdateNurse = (id, data) => apiRequest(`/nurses/${id}`, { method: 'PATCH', body: JSON.stringify(data) })
 export const apiDeleteNurse = (id) => apiRequest(`/nurses/${id}`, { method: 'DELETE' })

@@ -3,7 +3,8 @@ import {
   apiCreateNurse,
   apiDeleteNurse,
   apiListNurses,
-  apiStartShift,
+  apiRecordActivity,
+  getAccessToken,
   apiUpdateNurse,
 } from '@/services/api'
 
@@ -143,8 +144,8 @@ const activityLog = ref(loadActivityLog())
 // Le mode local reste disponible hors connexion, mais toute session connectée
 // est synchronisée avec l’API et reçoit un jeton signé.
 async function syncWithBackend() {
+  if (!getAccessToken()) return
   try {
-    await apiStartShift(activeNurseId.value)
     const response = await apiListNurses()
     if (response?.nurses?.length) {
       nurses.value = response.nurses
@@ -206,7 +207,7 @@ export function useNurses() {
           entityId: selected.id,
         })
       }
-      apiStartShift(id).catch(() => {})
+      // La prise de poste est synchronisée uniquement après authentification.
     }
   }
 
@@ -340,6 +341,14 @@ export function useNurses() {
       activityLog.value = activityLog.value.slice(0, 100)
     }
     persistActivityLog()
+    apiRecordActivity({
+      action: item.action,
+      type: item.type,
+      entity: item.entity || 'clinical_record',
+      entityId: item.entityId,
+      target: item.target,
+      details: { ...item.details, changes: item.changes, patient: item.patient },
+    }).catch(() => {})
     return item
   }
 

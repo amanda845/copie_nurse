@@ -25,6 +25,7 @@ const navItems = [
   { name: 'patient-record', label: 'Soins & Interventions',    icon: 'cross' },
   { name: 'transmissions',  label: 'Transmissions',            icon: 'message' },
   { name: 'profile',        label: 'Évaluations & Activités',  icon: 'activity' },
+  { name: 'audit-log',      label: 'Journal des modifications', icon: 'file' },
 ]
 
 function isActive(name) {
