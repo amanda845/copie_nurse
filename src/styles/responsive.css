@@ -1,0 +1,151 @@
+@media (max-width: 1180px) {
+  .topbar { padding: 0 20px; }
+  .topbar-brand { min-width: 0; }
+  .topbar-brand > span:last-child { min-width: 0; }
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .transmissions-panel { max-width: none; }
+  .info-grid { grid-template-columns: repeat(2, 1fr); }
+  .record-layout { grid-template-columns: 1fr; }
+  .record-right { display: grid; grid-template-columns: 1fr 1fr; }
+  .rooms-grid { grid-template-columns: repeat(2, 1fr); }
+  .schedule-row { grid-template-columns: 65px 26px 1fr 1fr 90px; }
+  .schedule-row > .badge { display: none; }
+}
+
+@media (max-width: 900px) {
+  .home-hero { grid-template-columns: 1fr; gap: 32px; padding-top: 48px; }
+  .home-copy { max-width: 720px; }
+  .home-illustration { min-height: 360px; }
+  .home-illustration .app-logo { width: min(390px, 82vw); }
+  .topbar { gap: 12px; }
+  .sidebar { display: none; position: fixed; inset: 70px 0 auto; padding: 16px; background: var(--surface); border-bottom: 1px solid var(--line); box-shadow: 0 20px 50px rgba(15,23,42,.12); flex-direction: column; align-items: stretch; gap: 12px; }
+  .sidebar.sidebar-open { display: flex; }
+  .side-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .side-nav button { width: 100%; min-height: 44px; padding: 0 12px; font-size: 13px; }
+  .mobile-overlay { display: block; position: fixed; inset: 0; background: rgba(15,23,42,.4); z-index: 25; }
+  .mobile-menu { display: grid; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .patients-filter-row { align-items: stretch; flex-direction: column; }
+  .patients-filter-row .search-field { width: 100%; }
+  .patients-filter-row .filter-tabs { width: 100%; }
+  .panel-header { align-items: flex-start; }
+  .transmissions-page-header .panel-header { flex-wrap: wrap; }
+  .transmissions-filters { width: 100%; overflow-x: auto; padding-bottom: 2px; }
+  .form-grid { grid-template-columns: repeat(2, 1fr); }
+  .record-main { align-items: flex-start; }
+  .record-main .page-actions { justify-content: flex-end; }
+  .settings-layout { grid-template-columns: 1fr; }
+  .settings-layout > .settings-card:only-child { grid-column: auto; }
+}
+
+@media (max-width: 680px) {
+  .home-container { width: min(100% - 28px, 540px); }
+  .home-header-inner { min-height: 62px; }
+  .home-brand .app-logo { width: 36px; height: 36px; }
+  .home-brand .nurseflow-name { font-size: 18px; }
+  .home-header .home-button { min-height: 38px; padding: 0 14px; font-size: 12px; }
+  .home-hero { min-height: calc(100vh - 62px); gap: 16px; padding-top: 42px; padding-bottom: 44px; }
+  .home-eyebrow { margin-bottom: 18px; font-size: 10px; }
+  .home-copy h1 { font-size: clamp(34px, 10vw, 46px); letter-spacing: -1px; }
+  .home-copy p { margin: 20px 0 26px; font-size: 15px; line-height: 1.55; }
+  .home-cta { width: 100%; min-height: 46px; padding: 0 20px; font-size: 15px; }
+  .home-illustration { min-height: 260px; }
+  .home-illustration .app-logo { width: min(300px, 84vw); }
+  .topbar { min-height: 60px; padding: 0 16px; }
+  .sidebar { inset: 60px 0 auto; padding: 12px; }
+  .topbar-brand { gap: 6px; }
+  .topbar-brand .app-logo { width: 36px; height: 36px; }
+  .nurseflow-name > span:first-child { font-size: 18px; }
+  .topbar-brand small { font-size: 8px; }
+  .profile-button > span:nth-child(2), .profile-button > .icon { display: none; }
+  main { padding: 21px 14px 85px; }
+  .page-title { margin-bottom: 18px; align-items: flex-end; }
+  .page-title h1 { font-size: 21px; }
+  .page-title .page-actions .btn span { display: none; }
+  .page-title .page-actions .btn { width: 42px; padding: 0; }
+  .stats-grid { gap: 9px; }
+  .stat-card { padding: 13px; gap: 10px; }
+  .stat-icon { width: 34px; height: 34px; }
+  .stat-copy strong { font-size: 20px; }
+  .stat-copy small { display: none; }
+  .panel-header { padding: 14px; }
+  .patients-page-header .panel-header,
+  .transmissions-page-header .panel-header { gap: 12px; }
+  .patients-page-header .panel-header > .btn { width: 100%; }
+  .transmissions-filters { gap: 6px; }
+  .transmissions-filters .filter-chip { flex: none; }
+  .toolbar { flex-direction: column; align-items: stretch; padding: 13px; }
+  .search-field { width: 100%; }
+  .patients-filter-panel { padding: 14px; }
+  .patients-filter-row { gap: 10px; }
+  .filter-tabs { overflow-x: auto; width: 100%; }
+  .pagination > span { display: none; }
+  .pagination { justify-content: center; }
+
+  .table-wrap table, .table-wrap tbody, .table-wrap tr, .table-wrap td { display: block; }
+  .table-wrap thead { display: none; }
+  .table-wrap tr { position: relative; padding: 13px; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .table-wrap td { height: auto; padding: 0; border: 0; white-space: normal; font-size: 10px; }
+  .table-wrap td::before { content: attr(data-label); display: block; font-size: 8px; text-transform: uppercase; color: #94a3b8; margin-bottom: 3px; }
+  .table-wrap td:first-child { grid-column: 1 / -1; }
+  .patient-management-table .table-wrap td:first-child { display: block; }
+  .table-wrap td:first-child::before { display: none; }
+  .table-wrap .row-actions { position: absolute; top: 13px; right: 9px; }
+  .table-wrap .row-actions .btn span { display: none; }
+  .patient-management-table .row-actions { position: static; grid-column: 1 / -1; display: flex; gap: 8px; }
+  .patient-management-table .row-actions .btn span { display: inline; }
+  .patient-panel .table-wrap tr:nth-child(n+4) { display: none; }
+
+  .record-header { margin: -21px -14px 16px; padding: 15px 14px 0; }
+  .record-main { flex-direction: column; }
+  .record-main .page-actions { width: 100%; }
+  .record-main .page-actions .btn { flex: 1; padding: 0 8px; }
+  .record-main .page-actions .btn span { font-size: 9px; }
+  .record-alert { align-items: flex-start; }
+  .record-tabs { margin-left: -14px; margin-right: -14px; padding: 0 8px; }
+  .record-tabs button { padding: 0 11px; }
+  .record-left, .record-right { gap: 12px; }
+  .record-right { display: flex; }
+  .info-grid { grid-template-columns: 1fr 1fr; padding: 7px 14px 14px; gap: 0 16px; }
+
+  .form-grid { grid-template-columns: 1fr; padding: 16px; }
+  .field-full { grid-column: auto; }
+  .danger-zone { align-items: flex-start; gap: 14px; flex-direction: column; }
+  .form-actions { position: sticky; bottom: 67px; z-index: 10; background: rgba(245,247,251,.95); padding: 10px 0; }
+  .form-actions .btn { flex: 1; }
+  .custom-select-menu { max-height: 220px; overflow-y: auto; }
+  .rooms-grid { grid-template-columns: 1fr; }
+  .room-legend { overflow-x: auto; }
+  .occupancy { display: none; }
+
+  .transmission-card { padding: 13px; }
+  .transmission-card > .avatar { display: none; }
+  .transmission-card-main header { flex-direction: column; }
+  .transmission-card-main header > div:last-child { position: absolute; right: 28px; }
+  .transmission-card-main header > div:last-child { max-width: calc(100% - 96px); overflow-x: auto; }
+  .transmission-card-main footer { gap: 10px; }
+  .date-control button { display: none; }
+  .date-control span { border: 0; }
+  .schedule-summary { gap: 7px; }
+  .schedule-summary > div { flex: 1; width: auto; padding: 8px; }
+  .schedule-summary > div > span { display: none; }
+  .schedule-row { grid-template-columns: 55px 24px 1fr 75px; gap: 8px; padding: 8px 0; }
+  .schedule-treatment { grid-column: 3; }
+  .schedule-nurse { display: none; }
+  .schedule-row .badge { display: inline-flex; grid-column: 4; grid-row: 1 / 3; justify-self: end; }
+  .notification-list article { grid-template-columns: 38px 1fr; padding: 14px; }
+  .notification-list article > button { grid-column: 2; justify-self: start; padding: 0; }
+  .notification-list p { line-height: 1.45; }
+  .setting-row { margin: 0 14px; }
+  .setting-row small { max-width: 180px; }
+
+  .mobile-nav { display: grid; position: fixed; inset: auto 0 0; z-index: 50; height: 65px; grid-template-columns: repeat(4, 1fr); background: rgba(255,255,255,.97); backdrop-filter: blur(10px); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+  .mobile-nav button { border: 0; background: transparent; color: #8794a6; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 7px; font-weight: 600; }
+  .mobile-nav button.active { color: var(--primary); }
+  .mobile-nav .icon { width: 19px; height: 19px; }
+  .toast { left: 14px; right: 14px; bottom: 78px; min-width: 0; }
+  .modal-backdrop { align-items: end; padding: 0; }
+  .modal { border-radius: 17px 17px 0 0; }
+  .login-page { padding: 18px; }
+  .login-card { padding: 24px 20px; }
+}

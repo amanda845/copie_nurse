@@ -1,0 +1,1699 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   CARENURSE HOSPITAL DESIGN SYSTEM
+   Fidélité au modèle visuel CareNurse (CH Béjaïa)
+──────────────────────────────────────────────────────────────────────────────*/
+
+/* ── Ajustement Page Content pour grand écran ─────────────────────────────── */
+.page-content {
+  padding: 20px 28px 28px !important;
+  max-width: 1540px !important;
+  margin: 0 auto;
+}
+
+/* ── Topbar CareNurse ──────────────────────────────────────────────────────── */
+.topbar-carenurse {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  min-height: 64px;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  gap: 16px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+}
+
+.tbc-hospital {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tbc-hospital-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1d4ed8;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.tbc-hospital-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.tbc-hospital-name {
+  font-size: 14px;
+  font-weight: 750;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+.tbc-service-name {
+  font-size: 11px;
+  color: #64748b;
+  font-weight: 500;
+  margin-top: 1px;
+}
+
+.tbc-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Bouton Cloche notification */
+.tbc-notif-wrapper {
+  position: relative;
+}
+
+.tbc-notif-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  display: grid;
+  place-items: center;
+  color: #475569;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.tbc-notif-btn:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+  border-color: #cbd5e1;
+}
+
+.tbc-notif-badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  border: 2px solid #ffffff;
+}
+
+/* Popover notifications */
+.tbc-notif-popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 320px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  z-index: 50;
+}
+
+.tbc-notif-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tbc-notif-header strong {
+  font-size: 12.5px;
+  color: #0f172a;
+}
+
+.tbc-notif-count {
+  font-size: 11px;
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.tbc-notif-list {
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.tbc-notif-item {
+  padding: 10px 16px;
+  display: flex;
+  gap: 10px;
+  border-bottom: 1px solid #f8fafc;
+}
+
+.tbc-notif-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+.tbc-notif-body strong {
+  display: block;
+  font-size: 12px;
+  color: #1e293b;
+}
+
+.tbc-notif-body p {
+  margin: 2px 0 3px;
+  font-size: 11px;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.tbc-notif-body small {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+/* Profil soignant */
+.tbc-nurse-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 10px;
+  transition: background 0.15s ease;
+  text-align: left;
+}
+
+.tbc-nurse-profile:hover {
+  background: #f1f5f9;
+}
+
+.tbc-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1e40af;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.tbc-avatar-initials {
+  font-size: 13px;
+  font-weight: 750;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.tbc-nurse-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.tbc-role-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.tbc-nurse-dept {
+  font-size: 10.5px;
+  color: #64748b;
+}
+
+/* Séparateur vertical */
+.tbc-divider {
+  width: 1px;
+  height: 28px;
+  background: #e2e8f0;
+}
+
+/* Horloge / Date */
+.tbc-datetime {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  min-width: 130px;
+}
+
+.tbc-date {
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.tbc-time {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+
+/* ── Sidebar CareNurse ─────────────────────────────────────────────────────── */
+.care-nurse-sidebar {
+  background: linear-gradient(180deg, #091e42 0%, #06152f 100%) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100vh !important;
+  position: sticky !important;
+  top: 0 !important;
+}
+
+.carenurse-logo-wrapper {
+  filter: drop-shadow(0 2px 8px rgba(37, 99, 235, 0.4));
+}
+
+.carenurse-title {
+  font-size: 19px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.4px !important;
+  color: #ffffff !important;
+}
+
+.carenurse-sub {
+  font-size: 10.5px !important;
+  color: #93c5fd !important;
+  font-weight: 500 !important;
+  display: block;
+}
+
+.vsb-quote {
+  margin-top: auto !important;
+  padding: 16px 14px 12px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.vsb-quote-lines {
+  font-style: italic;
+  font-size: 10px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+  text-align: center;
+}
+
+.vsb-quote-heartbeat {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+  color: #60a5fa;
+  opacity: 0.85;
+}
+
+
+/* ── Dashboard Contenu Principal ───────────────────────────────────────────── */
+.carenurse-dashboard {
+  width: 100%;
+}
+
+/* 1. En-tête */
+.cnd-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.cnd-header-icon {
+  color: #0c2b5e;
+  display: grid;
+  place-items: center;
+}
+
+.cnd-title {
+  font-size: 23px;
+  font-weight: 800;
+  color: #0c2b5e;
+  margin: 0;
+  letter-spacing: -0.4px;
+}
+
+.cnd-subtitle {
+  font-size: 12.5px;
+  color: #64748b;
+  margin: 2px 0 0;
+}
+
+
+/* 2. Top 4 KPIs */
+.cnd-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.cnd-kpi-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cnd-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.cnd-kpi-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.icon-female {
+  background: linear-gradient(135deg, #e11d48, #be185d);
+  box-shadow: 0 3px 10px rgba(190, 24, 93, 0.25);
+}
+
+.icon-male {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  box-shadow: 0 3px 10px rgba(29, 78, 216, 0.25);
+}
+
+.icon-hdj {
+  background: linear-gradient(135deg, #0d9488, #0f766e);
+  box-shadow: 0 3px 10px rgba(15, 118, 110, 0.25);
+}
+
+.icon-available {
+  background: linear-gradient(135deg, #4f46e5, #3730a3);
+  box-shadow: 0 3px 10px rgba(55, 48, 163, 0.25);
+}
+
+.cnd-kpi-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.cnd-kpi-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.cnd-kpi-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.1;
+  margin: 1px 0;
+}
+
+.cnd-kpi-subtext {
+  font-size: 10.5px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+
+/* 3. Grille des 3 colonnes principales (Side by side) */
+.cnd-main-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.cnd-column {
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.col-women {
+  border-color: #fce7f3;
+  background: #fffbfe;
+}
+
+.col-men {
+  border-color: #e0f2fe;
+  background: #f8fbff;
+}
+
+.col-hdj {
+  border-color: #ccfbf1;
+  background: #f7fdfb;
+}
+
+/* En-tête de colonne */
+.cnd-col-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  font-size: 13.5px;
+  font-weight: 750;
+}
+
+.header-women {
+  background: #fdf2f8;
+  border-bottom: 1px solid #fce7f3;
+  color: #9d174d;
+}
+
+.header-men {
+  background: #f0f9ff;
+  border-bottom: 1px solid #e0f2fe;
+  color: #0369a1;
+}
+
+.header-hdj {
+  background: #f0fdfa;
+  border-bottom: 1px solid #ccfbf1;
+  color: #0f766e;
+}
+
+.cnd-col-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.cnd-col-badge {
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 12px;
+}
+
+.badge-women {
+  background: #fce7f3;
+  color: #be185d;
+}
+
+.badge-men {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.badge-hdj {
+  background: #ccfbf1;
+  color: #0d9488;
+}
+
+/* Liste des chambres */
+.cnd-rooms-list {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cnd-room-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.cnd-room-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.cnd-room-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.head-women .cnd-room-title {
+  color: #be185d;
+}
+
+.icon-room-women {
+  color: #db2777;
+}
+
+.head-men .cnd-room-title {
+  color: #0284c7;
+}
+
+.icon-room-men {
+  color: #0284c7;
+}
+
+.cnd-room-capacity {
+  font-size: 10.5px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Grille des lits 2x2 */
+.cnd-beds-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.cnd-bed-chip {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 7px;
+  padding: 5px 8px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cnd-bed-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border-color: #cbd5e1;
+}
+
+.cnd-bed-line {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cnd-bed-code {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.cnd-status-text {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* Statuts / Points colorés */
+.cnd-dot {
+  width: 6.5px;
+  height: 6.5px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.dot-libre {
+  background: #22c55e;
+}
+
+.dot-occupé {
+  background: #ef4444;
+}
+
+.dot-réservé {
+  background: #f59e0b;
+}
+
+.text-libre {
+  color: #16a34a;
+}
+
+.text-occupé {
+  color: #dc2626;
+}
+
+.text-réservé {
+  color: #d97706;
+}
+
+/* HDJ Liste */
+.cnd-hdj-list {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cnd-hdj-item {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  width: 100%;
+}
+
+.cnd-hdj-item:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
+  border-color: #0d9488;
+}
+
+.cnd-hdj-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cnd-hdj-icon {
+  color: #0a2540;
+}
+
+.cnd-hdj-name {
+  font-size: 12.5px;
+  font-weight: 750;
+  color: #0f172a;
+}
+
+.cnd-hdj-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2.5px 9px;
+  border-radius: 20px;
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.hdj-badge-libre {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
+}
+
+.hdj-badge-occupé {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.hdj-badge-réservé {
+  background: #fffbeb;
+  color: #d97706;
+  border: 1px solid #fde68a;
+}
+
+
+/* 4. Barre Légende des statuts et slogan (Single horizontal line) */
+.cnd-legend-bar {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.cnd-legend-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 1;
+}
+
+.cnd-legend-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #0f172a;
+  font-size: 12.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cnd-legend-info-icon {
+  color: #2563eb;
+  display: grid;
+  place-items: center;
+}
+
+.cnd-legend-items {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.cnd-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.cnd-legend-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.cnd-legend-text strong {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.cnd-legend-text small {
+  font-size: 9.5px;
+  color: #64748b;
+}
+
+.cnd-legend-right {
+  flex-shrink: 0;
+}
+
+.cnd-slogan-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 6px 14px;
+}
+
+.cnd-slogan-icon {
+  color: #2563eb;
+  display: grid;
+  place-items: center;
+}
+
+.cnd-slogan-text {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: #475569;
+  line-height: 1.35;
+  margin: 0;
+}
+
+
+/* 5. Modale interactive d'un lit */
+.cnd-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.cnd-modal-content {
+  background: #ffffff;
+  border-radius: 18px;
+  width: min(520px, 100%);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  animation: modal-pop 0.2s ease-out;
+}
+
+@keyframes modal-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.cnd-modal-head {
+  padding: 16px 20px;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cnd-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cnd-modal-bed-badge {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.cnd-modal-title h3 {
+  font-size: 14.5px;
+  font-weight: 750;
+  color: #0f172a;
+  margin: 0;
+}
+
+.cnd-modal-status {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.badge-status-libre { color: #16a34a; }
+.badge-status-occupé { color: #dc2626; }
+.badge-status-réservé { color: #d97706; }
+
+.cnd-modal-close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #94a3b8;
+  display: grid;
+  place-items: center;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.cnd-modal-close:hover {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.cnd-modal-body {
+  padding: 20px;
+}
+
+.cnd-patient-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.cnd-patient-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.cnd-patient-meta h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 750;
+  color: #0f172a;
+}
+
+.cnd-patient-meta p {
+  margin: 2px 0;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.cnd-patient-meta small {
+  font-size: 11px;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.cnd-patient-diag {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 20px;
+}
+
+.cnd-patient-diag strong {
+  display: block;
+  font-size: 11.5px;
+  color: #334155;
+  margin-bottom: 4px;
+}
+
+.cnd-patient-diag p {
+  margin: 0;
+  font-size: 12.5px;
+  color: #0f172a;
+}
+
+.cnd-patient-actions, .cnd-reserve-actions, .cnd-free-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.cnd-reserve-info, .cnd-free-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.cnd-reserve-info strong, .cnd-free-info strong {
+  display: block;
+  font-size: 13px;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.cnd-reserve-info p, .cnd-free-info p {
+  margin: 0;
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+
+/* ── Bouton Burger Topbar (mobile) ── */
+.tbc-left-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tbc-burger-btn {
+  display: none;
+}
+
+.tbc-name-short {
+  display: none;
+}
+
+/* ── Mobile Sidebar Drawer ── */
+.sidebar-mobile-backdrop {
+  display: none;
+}
+
+.vsb-mobile-close {
+  display: none;
+}
+
+/* ── Responsive Mobile Phone & Tablet ── */
+@media (max-width: 900px) {
+  /* Layout shell mobile */
+  .app-shell-v2 {
+    display: block !important;
+    position: relative;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .main-area {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Sidebar mobile backdrop & drawer (Exactement fidèle à la capture) */
+  .sidebar-mobile-backdrop {
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(10, 20, 40, 0.7) !important;
+    backdrop-filter: blur(5px) !important;
+    -webkit-backdrop-filter: blur(5px) !important;
+    z-index: 9998 !important;
+  }
+
+  .v-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 285px !important;
+    max-width: 86vw !important;
+    height: 100vh !important;
+    z-index: 9999 !important;
+    background: #0c1b38 !important;
+    border-radius: 0 22px 22px 0 !important;
+    transform: translateX(-100%) !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 10px 0 35px rgba(0, 0, 0, 0.45) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow-y: auto !important;
+  }
+
+  .v-sidebar--mobile-open {
+    transform: translateX(0) !important;
+  }
+
+  .vsb-item--active {
+    background: #1967d2 !important;
+    box-shadow: 0 4px 14px rgba(25, 103, 210, 0.45) !important;
+    border-radius: 12px !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+  }
+
+  .vsb-mobile-close {
+    display: grid !important;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    cursor: pointer;
+    margin-left: auto;
+  }
+
+  /* Topbar burger */
+  .tbc-burger-btn {
+    display: grid !important;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    color: #0f172a;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .topbar-carenurse {
+    padding: 0 14px !important;
+    min-height: 58px !important;
+  }
+
+  /* Contenu de page sur mobile */
+  .page-content {
+    padding: 16px 14px 28px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* KPIs 2 colonnes */
+  .cnd-kpi-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .cnd-kpi-card {
+    padding: 12px 14px !important;
+    gap: 10px !important;
+    border-radius: 12px !important;
+  }
+
+  .cnd-kpi-icon {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .cnd-kpi-value {
+    font-size: 22px !important;
+  }
+
+  /* 3 sections empilées proprement */
+  .cnd-main-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    margin-bottom: 16px !important;
+  }
+
+  /* Légende des statuts */
+  .cnd-legend-bar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    padding: 14px 16px !important;
+    gap: 12px !important;
+  }
+
+  .cnd-legend-left {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  .cnd-legend-items {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .cnd-slogan-box {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Footer signature mobile */
+  .app-footer {
+    padding: 16px 14px !important;
+  }
+
+  .app-footer-inner {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 10px !important;
+  }
+
+  .footer-emails {
+    flex-direction: column !important;
+    gap: 4px !important;
+  }
+
+  .footer-email-sep {
+    display: none !important;
+  }
+}
+
+@media (max-width: 680px) {
+  .tbc-name-full {
+    display: none !important;
+  }
+  .tbc-name-short {
+    display: inline !important;
+    font-size: 13px !important;
+  }
+  .tbc-service-name {
+    display: none !important;
+  }
+  .tbc-hospital-icon {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+  }
+  .tbc-hospital {
+    gap: 8px !important;
+  }
+  .tbc-nurse-dept {
+    display: none !important;
+  }
+  .tbc-role-title {
+    font-size: 12px !important;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .tbc-avatar {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 12px !important;
+  }
+  .tbc-nurse-profile {
+    padding: 2px 6px 2px 2px !important;
+    gap: 6px !important;
+  }
+  .tbc-divider {
+    display: none !important;
+  }
+  .tbc-date {
+    display: none !important;
+  }
+  .tbc-datetime {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+  }
+  .tbc-time {
+    font-size: 12.5px !important;
+    font-weight: 700 !important;
+    color: #1e3a8a !important;
+    background: #eff6ff;
+    border: 1px solid #dbeafe;
+    padding: 3px 6px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+  }
+  .tbc-right {
+    gap: 8px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .cnd-kpi-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+  .cnd-kpi-card {
+    padding: 10px 10px !important;
+    gap: 8px !important;
+  }
+  .cnd-kpi-icon {
+    width: 34px !important;
+    height: 34px !important;
+  }
+  .cnd-kpi-value {
+    font-size: 19px !important;
+  }
+  .cnd-kpi-label {
+    font-size: 11px !important;
+  }
+  .cnd-beds-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 5px !important;
+  }
+  .cnd-bed-chip {
+    padding: 6px 6px !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SECTION DES SERVICES HOSPITALIERS (Page d'accueil uniquement)
+   ──────────────────────────────────────────────────────────────────────────────*/
+.cnd-services-section {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 18px 22px;
+  margin-bottom: 22px;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
+}
+
+.cnd-services-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.cnd-services-title-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cnd-services-icon-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1d4ed8;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.cnd-services-title-area h2 {
+  font-size: 15px;
+  font-weight: 750;
+  color: #0f172a;
+  margin: 0;
+}
+
+.cnd-services-title-area p {
+  font-size: 11.5px;
+  color: #64748b;
+  margin: 2px 0 0;
+}
+
+.cnd-services-count-pill {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0369a1;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.cnd-services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 1200px) {
+  .cnd-services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .cnd-services-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cnd-service-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 13px 15px;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  text-align: left;
+}
+
+.cnd-service-card:hover {
+  transform: translateY(-2px);
+  background: #ffffff;
+  border-color: #3b82f6;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.08);
+}
+
+.cnd-service-card.is-active-service {
+  background: #ffffff;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.cnd-service-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cnd-service-icon-box {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+}
+
+.iconbox-med { background: #eff6ff; color: #1d4ed8; }
+.iconbox-chir { background: #fdf2f8; color: #be185d; }
+.iconbox-hdj { background: #f0fdfa; color: #0d9488; }
+.iconbox-urg { background: #fef2f2; color: #b91c1c; }
+.iconbox-cardio { background: #fff1f2; color: #e11d48; }
+.iconbox-ped { background: #faf5ff; color: #7e22ce; }
+.iconbox-mat { background: #fdf4ff; color: #a21caf; }
+.iconbox-onco { background: #fff7ed; color: #c2410c; }
+
+.cnd-service-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+
+.badge-serv-conventionnel { background: #dbeafe; color: #1e40af; }
+.badge-serv-chirurgie { background: #fce7f3; color: #9d174d; }
+.badge-serv-hdj { background: #ccfbf1; color: #0f766e; }
+.badge-serv-urgence { background: #fee2e2; color: #991b1b; }
+.badge-serv-cardio { background: #ffe4e6; color: #be123c; }
+.badge-serv-ped { background: #f3e8ff; color: #6b21a8; }
+.badge-serv-mat { background: #fae8ff; color: #86198f; }
+.badge-serv-onco { background: #ffedd5; color: #9a3412; }
+
+.cnd-service-name {
+  font-size: 13px;
+  font-weight: 750;
+  color: #0f172a;
+  line-height: 1.25;
+}
+
+.cnd-service-desc {
+  font-size: 10.5px;
+  color: #64748b;
+  line-height: 1.35;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cnd-service-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px dashed #e2e8f0;
+  font-size: 10px;
+  color: #475569;
+  font-weight: 600;
+}
+
+.cnd-service-status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  margin-right: 4px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   HÔPITAL DE JOUR (AMBULATOIRE / RENDEZ-VOUS SANS NUITÉE)
+   ──────────────────────────────────────────────────────────────────────────────*/
+.cnd-ambulatory-banner {
+  background: linear-gradient(135deg, #f0fdfa, #e6fffa);
+  border: 1px solid #99f6e4;
+  border-radius: 10px;
+  padding: 9px 12px;
+  margin: 10px 10px 4px;
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: #115e59;
+}
+
+.cnd-ambulatory-banner strong {
+  color: #0f766e;
+  font-weight: 700;
+}
+
+.cnd-ambulatory-banner p {
+  margin: 2px 0 0;
+  color: #134e4a;
+}
+
+.cnd-hdj-sessions-list {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cnd-hdj-session-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 11px;
+  padding: 11px 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  text-align: left;
+  position: relative;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.cnd-hdj-session-card:hover {
+  transform: translateY(-2px);
+  border-color: #0d9488;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.08);
+}
+
+.cnd-hdj-session-card.status-en-soin {
+  border-left: 3.5px solid #0d9488;
+  background: #fbffff;
+}
+
+.cnd-hdj-session-card.status-prévu {
+  border-left: 3.5px solid #f59e0b;
+  background: #fffdfa;
+}
+
+.cnd-hdj-session-card.status-terminé {
+  border-left: 3.5px solid #64748b;
+  background: #f8fafc;
+  opacity: 0.88;
+}
+
+.cnd-hdj-session-card.status-terminé:hover {
+  opacity: 1;
+}
+
+.cnd-hdj-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.cnd-hdj-slot-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  font-weight: 750;
+  color: #0f766e;
+  background: #ccfbf1;
+  padding: 2.5px 8px;
+  border-radius: 6px;
+}
+
+.cnd-hdj-status-pill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.status-pill-en-soin {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.status-pill-prévu {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.status-pill-terminé {
+  background: #e2e8f0;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+.cnd-hdj-patient-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cnd-hdj-patient-name {
+  font-size: 12.5px;
+  font-weight: 750;
+  color: #0f172a;
+}
+
+.cnd-hdj-chair-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #475569;
+  background: #f1f5f9;
+  padding: 1px 7px;
+  border-radius: 4px;
+}
+
+.cnd-hdj-care-text {
+  font-size: 11px;
+  font-weight: 600;
+  color: #0f766e;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.cnd-hdj-bottom-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 9.5px;
+  color: #64748b;
+  border-top: 1px dashed #e2e8f0;
+  padding-top: 6px;
+}
+
+.cnd-hdj-notice-tag {
+  color: #0d9488;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* Modal Ambulatoire Spécifique */
+.cnd-modal-ambulatory-badge {
+  background: #ccfbf1 !important;
+  color: #0f766e !important;
+  border: 1px solid #99f6e4;
+}
+
+.cnd-ambulatory-alert {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 9px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: #1e40af;
+  margin-bottom: 14px;
+}
+
+.cnd-ambulatory-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.cnd-ambulatory-detail-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 11px;
+}
+
+.cnd-ambulatory-detail-box small {
+  font-size: 9px;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.cnd-ambulatory-detail-box strong {
+  font-size: 11px;
+  color: #0f172a;
+}
+

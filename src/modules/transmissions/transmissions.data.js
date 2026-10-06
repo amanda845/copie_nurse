@@ -1,0 +1,38 @@
+export const transmissionData = [
+  {
+    patient: 'Yacine Aït',
+    initials: 'YA',
+    time: '19:25',
+    nurse: 'Amel K.',
+    message: 'Douleur thoracique signalée. Médecin de garde prévenu, surveillance rapprochée.',
+    priority: 'Urgente',
+    read: 'À lire',
+  },
+  {
+    patient: 'Amine Mansouri',
+    initials: 'AM',
+    time: '19:10',
+    nurse: 'Salima Msdn',
+    message: 'Patient stable. Surveillance de la perfusion et contrôle de la douleur à 20:00.',
+    priority: 'Normale',
+    read: 'Lue',
+  },
+  {
+    patient: 'Lina Haddad',
+    initials: 'LH',
+    time: '18:40',
+    nurse: 'Nadia R.',
+    message: 'Perfusion renouvelée, débit vérifié. Bonne tolérance.',
+    priority: 'Normale',
+    read: 'Lue',
+  },
+  {
+    patient: 'Sarah Benali',
+    initials: 'SB',
+    time: '17:45',
+    nurse: 'Amel K.',
+    message: 'Traitement de 16:00 administré. Aucun effet indésirable observé.',
+    priority: 'Normale',
+    read: 'Lue',
+  },
+]

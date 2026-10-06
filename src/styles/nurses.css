@@ -1,0 +1,540 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   GESTION DES SOIGNANTS & PRISE DE POSTE (NURSE ROSTER & ACTIONS)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Topbar : bouton soignant actif */
+.active-nurse-btn {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 6px 14px 6px 8px;
+  transition: all .15s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.active-nurse-btn:hover {
+  background: #f8faff;
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+}
+.avatar-with-status {
+  position: relative;
+  display: inline-block;
+}
+.online-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 9px;
+  height: 9px;
+  background: #10b981;
+  border: 2px solid white;
+  border-radius: 50%;
+}
+.nurse-top-tag {
+  font-size: 8px;
+  font-weight: 700;
+  color: #059669;
+  background: #ecfdf5;
+  padding: 1px 6px;
+  border-radius: 6px;
+  border: 1px solid #a7f3d0;
+}
+
+/* Modale de changement rapide de soignant */
+.nurse-switcher-modal {
+  width: min(580px, 100%);
+}
+.active-nurse-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  gap: 12px;
+}
+.an-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.an-badge {
+  display: inline-block;
+  font-size: 8px;
+  font-weight: 700;
+  color: #1e40af;
+  background: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #dbeafe;
+  margin-top: 3px;
+}
+.badge-status-on {
+  font-size: 9px;
+  font-weight: 700;
+  color: #059669;
+  background: #ecfdf5;
+  padding: 2px 7px;
+  border-radius: 10px;
+}
+.view-history-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--navy);
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.view-history-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-soft);
+}
+
+/* Liste des infirmiers */
+.add-nurse-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  padding: 5px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--primary);
+  cursor: pointer;
+}
+.add-nurse-toggle-btn:hover {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+}
+.add-nurse-form {
+  background: #fafbfc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+  animation: slide-up .15s ease;
+}
+.add-nurse-form h4 {
+  margin: 0 0 10px;
+  font-size: 11px;
+  color: var(--navy);
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.nurses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* ── Barre de recherche infirmier(e) ─────────────────────────────────────── */
+.nurse-search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.nurse-search-icon {
+  position: absolute;
+  left: 11px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  z-index: 1;
+}
+.nurse-search-input {
+  width: 100%;
+  padding: 9px 36px 9px 34px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #0f172a;
+  background: #f8fafc;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+  box-sizing: border-box;
+}
+.nurse-search-input::placeholder {
+  color: #b0bec5;
+  font-size: 12.5px;
+}
+.nurse-search-input:focus {
+  border-color: #3b82f6;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+.nurse-search-clear {
+  position: absolute;
+  right: 9px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: #e2e8f0;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.nurse-search-clear:hover {
+  background: #ef4444;
+  color: white;
+}
+/* État vide : aucun résultat trouvé */
+.nurse-no-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 16px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 13px;
+}
+.nurse-no-result p {
+  margin: 0;
+  line-height: 1.5;
+}
+.nurse-no-result strong {
+  color: #475569;
+}
+.nurse-card-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.nurse-card-item:hover {
+  border-color: #93c5fd;
+  background: #f8fafc;
+  transform: translateX(2px);
+}
+.nurse-card-item.is-active {
+  border-color: #10b981;
+  background: #f0fdf4;
+}
+.nci-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nci-info strong {
+  font-size: 11px;
+  color: var(--navy);
+}
+.nci-info small {
+  font-size: 9px;
+  color: var(--muted);
+}
+.badge-active-mini {
+  font-size: 8px;
+  font-weight: 700;
+  color: #059669;
+  background: #d1fae5;
+  padding: 1px 5px;
+  border-radius: 6px;
+}
+.in-service-tag {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #059669;
+}
+.btn-take-shift {
+  padding: 6px 12px;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--navy);
+  cursor: pointer;
+  transition: all .15s;
+}
+.btn-take-shift:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+.nurse-footer-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  color: var(--muted);
+}
+
+/* Modale Administration : choix du soignant */
+.nurse-selector-box {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.nurse-select-input {
+  width: 100%;
+  height: 38px;
+  padding: 0 12px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  background: white;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--navy);
+  outline: none;
+}
+.nurse-select-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+
+/* Prise de poste sur LoginView */
+.hospital-shift-card {
+  width: min(560px, 100%) !important;
+  max-width: 560px !important;
+}
+.shift-nurses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 16px 0;
+  max-height: 300px;
+  overflow-y: auto;
+  text-align: left;
+}
+.shift-nurse-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: white;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all .15s ease;
+  gap: 12px;
+}
+.shift-nurse-card:hover {
+  border-color: var(--primary);
+  background: #f8faff;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.08);
+}
+.shift-nurse-card.active-shift {
+  border-color: #10b981;
+  background: #f0fdf4;
+}
+.snc-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.snc-info strong {
+  font-size: 12px;
+  color: var(--navy);
+}
+.snc-info small {
+  font-size: 10px;
+  color: var(--muted);
+}
+.snc-badge {
+  font-size: 8px;
+  font-weight: 700;
+  color: #1e40af;
+  background: #dbeafe;
+  padding: 1px 6px;
+  border-radius: 4px;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+.btn-shift-action {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  border: 1px solid rgba(37,99,235,0.2);
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .15s;
+}
+.shift-nurse-card:hover .btn-shift-action {
+  background: var(--primary);
+  color: white;
+}
+.add-nurse-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 12px 0;
+  text-align: left;
+}
+.add-nurse-box h3 {
+  margin: 0 0 12px;
+  font-size: 12px;
+  color: var(--navy);
+}
+.login-shift-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+}
+.btn-toggle-add-nurse {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px dashed #cbd5e1;
+  border-radius: 9px;
+  padding: 9px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary);
+  cursor: pointer;
+}
+.btn-toggle-add-nurse:hover {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+}
+
+/* Journal d'activités dans le profil */
+.filter-pills {
+  display: flex;
+  gap: 6px;
+}
+.filter-pill {
+  padding: 4px 10px;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all .15s;
+}
+.filter-pill:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+.filter-pill.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+.activity-timeline-list {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 12px;
+}
+.activity-log-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: #f8fafc;
+  border: 1px solid #eef2f6;
+  border-radius: 10px;
+  transition: all .15s;
+}
+.activity-log-row:hover {
+  background: white;
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+.act-icon-box {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.act-icon-box.treatment {
+  background: #dcfce7;
+  color: #15803d;
+}
+.act-icon-box.observation {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+.act-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.act-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.act-top strong {
+  font-size: 11px;
+  color: var(--navy);
+}
+.act-time {
+  font-size: 9px;
+  color: #94a3b8;
+}
+.act-target {
+  font-size: 11px;
+  color: #334155;
+  font-weight: 500;
+}
+.act-patient {
+  font-size: 9px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* Amélioration de l'affichage de l'infirmier sous chaque prise dans le planning */
+.checked-by {
+  max-width: 48px !important;
+  overflow: hidden !important;
+  color: #334155 !important;
+  font-size: 7.5px !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  margin-top: 2px !important;
+  letter-spacing: -0.2px !important;
+}

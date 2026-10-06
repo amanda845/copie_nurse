@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@import "./variables.css";
+@import "./layout.css";
+@import "./components.css";
+@import "./pages.css";
+@import "./nurses.css";
+@import "./carenurse-dashboard.css";
+@import "./responsive.css";

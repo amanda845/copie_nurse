@@ -1,0 +1,279 @@
+@import '@fontsource/inter';
+
+* {
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+}
+
+:root {
+  --blue: #0284c7;
+  --blue-dark: #0c4a6e;
+  --blue-deep: #0c4a6e;
+  --blue-light: #f0f9ff;
+  --blue-mid: #e0f2fe;
+  --amber: #f59e0b;
+  --amber-dark: #d97706;
+  --red: #cc0000;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-400: #94a3b8;
+  --gray-600: #475569;
+  --gray-800: #1e293b;
+  --white: #ffffff;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.14);
+  --shadow-xl: 0 24px 64px rgba(0, 0, 0, 0.18);
+  --radius: 14px;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Dimensions & Base */
+  --font-size: 16px;
+  
+  /* Core Palette (Light Theme) */
+  --background: oklch(0.99 0.01 250); /* #f8f9fc slightly cool off-white */
+  --foreground: oklch(0.15 0.03 250); /* #0f172a dark slate text */
+  --card: #ffffff;
+  --card-foreground: oklch(0.15 0.03 250);
+  --popover: #ffffff;
+  --popover-foreground: oklch(0.15 0.03 250);
+  
+  /* Brand Strategy (Medical Blue) */
+  --primary: #0284c7;
+  --primary-foreground: #ffffff;
+  --secondary: oklch(0.96 0.01 250); /* #f1f5f9 */
+  --secondary-foreground: oklch(0.15 0.03 250);
+  
+  /* UI States */
+  --muted-bg: oklch(0.96 0.01 250);
+  --muted-foreground: oklch(0.5 0.02 250); /* #64748b */
+  --accent: oklch(0.96 0.01 250);
+  --accent-foreground: oklch(0.15 0.03 250);
+  --destructive: oklch(0.6 0.2 25); /* Rich red */
+  --destructive-foreground: #ffffff;
+  
+  /* Forms & Borders */
+  --border: rgba(15, 23, 42, 0.08);
+  --input: #ffffff;
+  --input-background: #ffffff;
+  --ring: #0284c7;
+  --switch-background: oklch(0.85 0.01 250); /* #cbd5e1 */
+
+  /* Legacy & Brand Utils Aliases */
+  --text-primary: var(--foreground);
+  --text-secondary: var(--muted-foreground);
+  --bg-primary: var(--background);
+  --bg-secondary: var(--secondary);
+  --bg-tertiary: oklch(0.94 0.01 250);
+
+  /* Premium Ombres (Subtle & Layered) */
+  --shadow-brand: rgba(2, 132, 199, 0.15);
+  --shadow-success: rgba(34, 197, 94, 0.1);
+  --shadow-danger: rgba(239, 68, 68, 0.1);
+  --shadow-neutral: rgba(15, 23, 42, 0.04);
+  
+  /* Modern Chart Colors */
+  --chart-1: oklch(0.6 0.2 260);
+  --chart-2: oklch(0.65 0.2 180);
+  --chart-3: oklch(0.7 0.15 60);
+  --chart-4: oklch(0.6 0.2 300);
+  --chart-5: oklch(0.65 0.2 30);
+  
+  /* Sidebar */
+  --sidebar: #ffffff;
+  --sidebar-foreground: oklch(0.2 0.03 250);
+  --sidebar-primary: #0284c7;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: oklch(0.96 0.01 250);
+  --sidebar-accent-foreground: oklch(0.2 0.03 250);
+  --sidebar-border: rgba(15, 23, 42, 0.05);
+  --sidebar-ring: oklch(0.6 0.2 260);
+  
+  color-scheme: light;
+
+  /* Legacy Compatibility Mapping */
+  --primary-dark: var(--blue-dark);
+  --primary-soft: var(--blue-light);
+  --navy: var(--foreground);
+  --text: var(--foreground);
+  --muted: var(--muted-foreground);
+  --line: var(--border);
+  --surface: var(--card);
+  --green: #169b68;
+  --green-soft: #e9f8f1;
+  --orange: var(--amber);
+  --orange-soft: #fff5e8;
+  --red-soft: #fff0f1;
+  --shadow: var(--shadow-sm);
+}
+
+/* Medical palette: 50, 100, 500, 600 and 900 */
+@theme {
+  --color-medical-50: #f0f9ff;
+  --color-medical-100: #e0f2fe;
+  --color-medical-500: #0ea5e9;
+  --color-medical-600: #0284c7;
+  --color-medical-900: #0c4a6e;
+}
+
+.dark, [data-theme='dark'], html.dark {
+  /* Core Palette (Dark Theme) */
+  --background: #05070F; 
+  --foreground: oklch(0.97 0.005 240); 
+  --card: #0D1120; 
+  --card-foreground: oklch(0.97 0.005 240);
+  --popover: #0D1120;
+  --popover-foreground: oklch(0.97 0.005 240);
+
+  --hover: rgba(59, 82, 255, 0.12); 
+  --hover-strong: rgba(59, 82, 255, 0.20); 
+
+  /* Brand Contrast */
+  --primary: #0ea5e9;
+  --primary-foreground: #05070F;
+  --secondary: #111827; 
+  --secondary-foreground: oklch(0.97 0.005 240);
+
+  /* UI States */
+  --muted-bg: #111827;
+  --muted-foreground: #64748b; 
+  --accent: #111827;
+  --accent-foreground: oklch(0.97 0.005 240);
+  --destructive: #f87171;
+  --destructive-foreground: #450a0a;
+
+  /* Forms & Borders */
+  --border: rgba(255, 255, 255, 0.05); 
+  --input: #0D1120;
+  --input-background: rgba(255, 255, 255, 0.02);
+  --switch-background: #1e293b;
+  --ring: #0ea5e9;
+
+  /* Legacy & Aliases Override */
+  --text-primary: var(--foreground);
+  --text-secondary: var(--muted-foreground);
+  --bg-primary: var(--background);
+  --bg-secondary: var(--card);
+  --bg-tertiary: var(--secondary);
+  --surface-card: var(--card);
+
+  /* Ombres (Mode Sombre) */
+  --shadow-brand: rgba(99, 120, 255, 0.2);
+  --shadow-success: rgba(74, 222, 128, 0.12);
+  --shadow-danger: rgba(248, 113, 113, 0.12);
+  --shadow-neutral: rgba(0, 0, 0, 0.7); 
+
+  /* Adjusted Dark Chart Colors */
+  --chart-1: oklch(0.65 0.22 260);
+  --chart-2: oklch(0.70 0.2 180);
+  --chart-3: oklch(0.75 0.15 60);
+  --chart-4: oklch(0.65 0.22 300);
+  --chart-5: oklch(0.70 0.2 30);
+
+  /* Sidebar Override */
+  --sidebar: #05070F;
+  --sidebar-foreground: oklch(0.97 0.005 240);
+  --sidebar-primary: #0ea5e9; 
+  --sidebar-primary-foreground: #05070F;
+  --sidebar-accent: #111827;
+  --sidebar-accent-foreground: oklch(0.97 0.005 240);
+  --sidebar-border: rgba(255, 255, 255, 0.04);
+  --sidebar-ring: #0ea5e9;
+
+  color-scheme: dark;
+
+  /* Legacy Compatibility Mapping */
+  --primary-dark: #e0f2fe;
+  --primary-soft: rgba(14, 165, 233, 0.15);
+  --navy: var(--foreground);
+  --text: var(--foreground);
+  --muted: var(--muted-foreground);
+  --line: var(--border);
+  --surface: var(--card);
+  --green: #22c55e;
+  --green-soft: rgba(34, 197, 94, 0.15);
+  --orange: var(--amber);
+  --orange-soft: rgba(245, 158, 11, 0.15);
+  --red: var(--destructive);
+  --red-soft: rgba(239, 68, 68, 0.15);
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted-bg);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  
+  --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-inter antialiased;
+    background-color: var(--background);
+    color: var(--foreground);
+    margin: 0; min-width: 320px; min-height: 100vh;
+  }
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  h1 { @apply text-2xl font-bold tracking-tight; }
+  h2 { @apply text-xl font-semibold tracking-tight; }
+  h3 { @apply text-lg font-semibold; }
+
+  label {
+    @apply text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
+  }
+
+  button, input, select, textarea { font: inherit; }
+  button { @apply transition-all cursor-pointer; }
+  input { @apply outline-none transition-all; }
+  button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--shadow-brand); outline-offset: 1px; }
+}
+
+/* Global Fixes for Theme Consistency */
+html.dark .bg-white { background-color: var(--card) !important; }
+html.dark .text-gray-900 { color: var(--foreground) !important; }
+html.dark .text-gray-600, 
+html.dark .text-gray-500 { color: var(--muted-foreground) !important; }
+html.dark .bg-gray-50, 
+html.dark .bg-gray-100 { background-color: var(--secondary) !important; }
+html.dark .border-gray-200 { border-color: var(--border) !important; }
