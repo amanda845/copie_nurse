@@ -1,4 +1,10 @@
 import { ref, computed } from 'vue'
+import {
+  apiCreateTreatment,
+  apiDeleteTreatment,
+  apiUpdateAdministration,
+  apiUpdateTreatment,
+} from '@/services/api'
 
 // ── Clé localStorage ────────────────────────────────────────────────────────
 const STORAGE_KEY = 'nurseflow_treatments'
@@ -99,6 +105,12 @@ export function useTreatments() {
       administrations: {},
     })
     persist()
+    apiCreateTreatment({
+      name: data.name.trim(),
+      dosage: data.dosage.trim(),
+      route: data.route,
+      scheduled: [...data.scheduled],
+    }).catch(() => {})
     return id
   }
 
@@ -113,6 +125,12 @@ export function useTreatments() {
       scheduled: [...data.scheduled],
     }
     persist()
+    apiUpdateTreatment(id, {
+      name: data.name.trim(),
+      dosage: data.dosage.trim(),
+      route: data.route,
+      scheduled: [...data.scheduled],
+    }).catch(() => {})
   }
 
   function deleteTreatment(id) {
@@ -120,6 +138,7 @@ export function useTreatments() {
     if (idx !== -1) {
       treatments.value.splice(idx, 1)
       persist()
+      apiDeleteTreatment(id).catch(() => {})
     }
   }
 
@@ -139,6 +158,7 @@ export function useTreatments() {
       }
     }
     persist()
+    apiUpdateAdministration(treatmentId, hour, { status: existing?.status === 'done' ? null : 'done', note: '' }).catch(() => {})
   }
 
   function setAdministrationStatus(treatmentId, hour, status, nurse = 'Salima Msdn', note = '') {
@@ -156,6 +176,7 @@ export function useTreatments() {
       }
     }
     persist()
+    apiUpdateAdministration(treatmentId, hour, { status, note }).catch(() => {})
   }
 
   const upcomingCount = computed(() => {

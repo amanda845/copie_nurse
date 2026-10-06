@@ -86,8 +86,32 @@ cd com.NurseFlow.app-master
 # 2. Installer les dépendances
 npm install
 
-# 3. Démarrer le serveur de développement
+# 3. Préparer la configuration backend
+cp .env.example .env
+
+# 4. Démarrer le serveur frontend
 npm run dev
+```
+
+### Backend REST
+
+Le projet contient maintenant une API Node.js (`server/`) basée sur SQLite native de Node 22 :
+
+- `POST /api/auth/login` — authentification email / mot de passe et jeton JWT ;
+- `POST /api/auth/shift` — prise de poste compatible avec l’écran actuel ;
+- `/api/nurses` — équipe infirmière ;
+- `/api/treatments` — traitements et administrations ;
+- `/api/diagnostics` — diagnostics infirmiers PES/NANDA ;
+- `/api/feedback` — feedbacks utilisateurs ;
+- `/api/activity` — journal d’audit signé et horodaté ;
+- `/api/health` — contrôle de disponibilité.
+
+Le frontend conserve son fonctionnement hors connexion comme filet de secours, mais synchronise les écritures vers l’API dès qu’elle est disponible. Le serveur crée automatiquement `data/nurseflow.sqlite` au premier démarrage. Le mot de passe du seed doit être changé via `SEED_NURSE_PASSWORD` avant tout usage réel.
+
+Pour lancer l’API et le frontend ensemble en développement :
+
+```bash
+npm run dev:full
 ```
 
 ### Build de production

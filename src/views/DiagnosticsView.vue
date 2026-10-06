@@ -4,6 +4,7 @@ import AppIcon from '@/components/common/AppIcon.vue'
 import AppButton from '@/components/common/AppButton.vue'
 import { useNurses } from '@/composables/useNurses'
 import { useToast } from '@/composables/useToast'
+import { apiCreateDiagnostic, apiDeleteDiagnostic, apiUpdateDiagnostic } from '@/services/api'
 
 const DIAGNOSTICS_STORAGE_KEY = 'nurseflow_diagnostics'
 
@@ -170,6 +171,7 @@ function submitDiag() {
     validationNote: newDiag.value.validationNote,
   }
   diagnostics.value.unshift(d)
+  apiCreateDiagnostic(d).catch(() => {})
   logActivity({
     type: 'diagnostic',
     action: 'Diagnostic infirmier posé',
@@ -222,6 +224,7 @@ function saveEdit(d) {
     validationNote: editForm.value.validationNote,
     nurseName:     activeNurse.value.name,
   }
+  apiUpdateDiagnostic(d.id, diagnostics.value[idx]).catch(() => {})
   logActivity({
     type: 'diagnostic',
     action: 'Diagnostic modifié',
@@ -241,6 +244,7 @@ function cancelEdit() {
 function deleteDiag(d) {
   if (!confirm(`Supprimer le diagnostic "${d.probleme}" ?`)) return
   diagnostics.value = diagnostics.value.filter(x => x.id !== d.id)
+  apiDeleteDiagnostic(d.id).catch(() => {})
   if (expandedId.value === d.id) expandedId.value = null
   logActivity({
     type: 'diagnostic',
@@ -255,6 +259,7 @@ function deleteDiag(d) {
 
 function resolveStatus(d) {
   d.status = 'résolu'
+  apiUpdateDiagnostic(d.id, d).catch(() => {})
   notify(`Diagnostic "${d.probleme}" marqué comme résolu.`)
   logActivity({
     type: 'diagnostic',

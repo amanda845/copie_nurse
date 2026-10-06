@@ -22,6 +22,12 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
     ],
 
+    server: {
+      proxy: {
+        '/api': 'http://localhost:3001',
+      },
+    },
+
     resolve: {
       alias: {
         '@': path.resolve(import.meta.dirname, './src'),
