@@ -8,6 +8,7 @@ import AppModal from '@/components/common/AppModal.vue'
 import AppFooter from '@/components/layout/AppFooter.vue'
 import { useToast } from '@/composables/useToast'
 import { useNurses } from '@/composables/useNurses'
+import { clearSession } from '@/services/api'
 
 const router = useRouter()
 const { toastMessage, notify, dismiss } = useToast()
@@ -38,6 +39,7 @@ function onModalSubmit(type) {
 }
 
 function handleLogout() {
+  clearSession()
   router.push({ name: 'login' })
 }
 </script>

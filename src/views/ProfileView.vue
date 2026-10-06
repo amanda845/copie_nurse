@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import PageTitle from '@/components/common/PageTitle.vue'
 import AppButton from '@/components/common/AppButton.vue'
 import AppAvatar from '@/components/common/AppAvatar.vue'
@@ -7,12 +7,35 @@ import AppIcon from '@/components/common/AppIcon.vue'
 import InfoRow from '@/components/records/InfoRow.vue'
 import NurseSwitcherModal from '@/components/layout/NurseSwitcherModal.vue'
 import { useNurses } from '@/composables/useNurses'
+import { apiListActivity } from '@/services/api'
 
 const emit = defineEmits(['notify', 'logout'])
 
 const { activeNurse, activityLog } = useNurses()
 const showSwitcher = ref(false)
 const filterType = ref('all')
+const loadingActivity = ref(false)
+const sourceLabel = ref('Journal serveur')
+
+function formatActivityDate(activity) {
+  if (!activity.timestamp) return `${activity.date || ''} à ${activity.time || ''}`
+  return new Intl.DateTimeFormat('fr-FR', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(activity.timestamp))
+}
+
+async function refreshServerActivity() {
+  loadingActivity.value = true
+  try {
+    const response = await apiListActivity('?limit=500')
+    activityLog.value = response.activities || []
+    sourceLabel.value = 'Journal serveur synchronisé'
+  } catch {
+    sourceLabel.value = 'Mode hors connexion — journal local'
+  } finally {
+    loadingActivity.value = false
+  }
+}
+
+onMounted(refreshServerActivity)
 
 const nurseActivities = computed(() => {
   return activityLog.value.filter(a => {
@@ -28,7 +51,7 @@ const treatmentsCount = computed(() => {
 })
 
 const observationsCount = computed(() => {
-  return activityLog.value.filter(a => (a.nurseId === activeNurse.value.id || a.nurseName === activeNurse.value.name) && a.type === 'observation').length
+  return activityLog.value.filter(a => (a.nurseId === activeNurse.value.id || a.nurseName === activeNurse.value.name) && ['observation', 'diagnostic', 'patient'].includes(a.type)).length
 })
 
 function logout() {
@@ -113,9 +136,12 @@ function logout() {
           <div class="panel-header" style="flex-wrap:wrap;gap:10px">
             <div>
               <h2>Journal des soins et consultations</h2>
-              <p>Traçabilité complète des modifications et actes effectués</p>
+              <p>{{ sourceLabel }} · toutes les modifications et actes effectués</p>
             </div>
-            <div class="filter-pills">
+            <div class="filter-pills" style="display:flex;flex-wrap:wrap;gap:6px">
+              <button type="button" class="filter-pill" @click="refreshServerActivity">
+                {{ loadingActivity ? 'Synchronisation…' : 'Actualiser' }}
+              </button>
               <button
                 type="button"
                 :class="['filter-pill', filterType === 'all' ? 'active' : '']"
@@ -137,6 +163,15 @@ function logout() {
               >
                 Observations
               </button>
+              <button
+                v-for="type in ['diagnostic', 'patient', 'staff', 'session', 'feedback']"
+                :key="type"
+                type="button"
+                :class="['filter-pill', filterType === type ? 'active' : '']"
+                @click="filterType = type"
+              >
+                {{ type === 'diagnostic' ? 'Diagnostics' : type === 'patient' ? 'Patients' : type === 'staff' ? 'Équipe' : type === 'session' ? 'Sessions' : 'Feedbacks' }}
+              </button>
             </div>
           </div>
 
@@ -157,12 +192,12 @@ function logout() {
               class="activity-log-row"
             >
               <div class="act-icon-box" :class="act.type">
-                <AppIcon :name="act.type === 'treatment' ? 'pill' : 'file'" :size="15" />
+                <AppIcon :name="act.type === 'treatment' ? 'pill' : act.type === 'diagnostic' ? 'stethoscope' : act.type === 'staff' ? 'users' : act.type === 'session' ? 'shield' : 'file'" :size="15" />
               </div>
               <div class="act-content">
                 <div class="act-top">
                   <strong>{{ act.action }}</strong>
-                  <span class="act-time">{{ act.date }} à {{ act.time }}</span>
+                  <span class="act-time">{{ formatActivityDate(act) }}</span>
                 </div>
                 <div class="act-target">{{ act.target }}</div>
                 <small class="act-patient">

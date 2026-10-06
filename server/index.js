@@ -77,6 +77,34 @@ app.post('/api/auth/login', (req, res) => {
   res.json({ token, nurse: safeNurse })
 })
 
+app.post('/api/auth/register', (req, res) => {
+  const schema = z.object({
+    name: z.string().trim().min(2),
+    email: z.string().email(),
+    password: z.string().min(8),
+    role: z.string().trim().min(2).default('Infirmier(e) DE'),
+    service: z.string().trim().min(2).default('Service Médecine 2'),
+    badge: z.string().trim().min(2),
+  })
+  const parsed = schema.safeParse(req.body)
+  if (!parsed.success) return res.status(400).json({ error: 'Les informations d’inscription sont invalides.' })
+  const count = db.prepare('SELECT COUNT(*) AS count FROM nurses').get().count
+  const id = `NF-${String(count + 1).padStart(3, '0')}`
+  const timestamp = now()
+  const initials = parsed.data.name.split(/\s+/).map((part) => part[0] || '').join('').slice(0, 2).toUpperCase()
+  try {
+    db.prepare(`INSERT INTO nurses (id, name, email, password_hash, role, service, badge, initials, tone, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+      .run(id, parsed.data.name, parsed.data.email.toLowerCase(), bcrypt.hashSync(parsed.data.password, 12), parsed.data.role, parsed.data.service, parsed.data.badge, initials, 'blue', timestamp, timestamp)
+    const nurse = db.prepare(`${nurseSelect} WHERE id = ?`).get(id)
+    const token = signToken(nurse)
+    audit({ nurse, ip: req.ip }, { action: 'Compte infirmier créé', type: 'auth', entity: 'nurse', entityId: id, target: nurse.name })
+    res.status(201).json({ token, nurse })
+  } catch {
+    res.status(409).json({ error: 'Cet email ou ce matricule est déjà utilisé.' })
+  }
+})
+
 app.post('/api/auth/shift', (req, res) => {
   const schema = z.object({ nurseId: z.string().min(1) })
   const parsed = schema.safeParse(req.body)
@@ -186,6 +214,24 @@ app.get('/api/activity', auth, (req, res) => {
     ${onlyMine ? 'WHERE a.nurse_id = ?' : ''} ORDER BY a.created_at DESC LIMIT ?`)
     .all(...(onlyMine ? [req.nurse.id, limit] : [limit]))
   res.json({ activities: rows.map((row) => ({ ...row, details: parseJson(row.details, {}) })) })
+})
+
+app.post('/api/activity/manual', auth, (req, res) => {
+  const schema = z.object({
+    action: z.string().trim().min(2),
+    type: z.string().trim().min(2),
+    entity: z.string().trim().min(2).default('clinical_record'),
+    entityId: z.union([z.string(), z.number()]).optional(),
+    target: z.string().optional().default(''),
+    details: z.record(z.string(), z.any()).optional().default({}),
+  })
+  const parsed = schema.safeParse(req.body)
+  if (!parsed.success) return res.status(400).json({ error: 'Événement d’audit invalide.' })
+  const id = randomUUID()
+  db.prepare(`INSERT INTO audit_logs (id, nurse_id, action, type, entity, entity_id, target, details_json, ip_address, created_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+    .run(id, req.nurse.id, parsed.data.action, parsed.data.type, parsed.data.entity, parsed.data.entityId ? String(parsed.data.entityId) : null, parsed.data.target, JSON.stringify(parsed.data.details), req.ip, now())
+  res.status(201).json({ id })
 })
 
 app.post('/api/feedback', auth, (req, res) => {
