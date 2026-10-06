@@ -98,8 +98,9 @@ app.post('/api/auth/register', (req, res) => {
   })
   const parsed = schema.safeParse(req.body)
   if (!parsed.success) return res.status(400).json({ error: 'Les informations d’inscription sont invalides.' })
-  const count = db.prepare('SELECT COUNT(*) AS count FROM nurses').get().count
-  const id = `NF-${String(count + 1).padStart(3, '0')}`
+  // Ne pas dériver l’identifiant du nombre de lignes : les comptes seed et les
+  // suppressions peuvent produire une collision sur un identifiant existant.
+  const id = `NF-${randomUUID().split('-')[0].toUpperCase()}`
   const timestamp = now()
   const initials = parsed.data.name.split(/\s+/).map((part) => part[0] || '').join('').slice(0, 2).toUpperCase()
   try {
