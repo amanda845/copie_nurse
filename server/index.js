@@ -15,7 +15,15 @@ const jwtSecret = process.env.JWT_SECRET || 'nurseflow-development-secret-change
 const allowDevHeader = process.env.ALLOW_DEV_NURSE_HEADER === 'true'
 
 app.use(helmet())
-app.use(cors({ origin: process.env.CLIENT_ORIGIN?.split(',') || true, credentials: true }))
+const allowedOrigins = (process.env.CLIENT_ORIGIN || '').split(',').map((origin) => origin.trim()).filter(Boolean)
+app.use(cors({
+  origin: (requestOrigin, callback) => {
+    // Les appels same-origin n’envoient pas toujours Origin.
+    if (!requestOrigin || allowedOrigins.length === 0 || allowedOrigins.includes(requestOrigin)) return callback(null, true)
+    return callback(new Error('Origine non autorisée par le serveur API.'))
+  },
+  credentials: true,
+}))
 app.use(express.json({ limit: '1mb' }))
 
 const nurseSelect = `SELECT id, name, email, role, service, badge, initials, tone, is_active AS isActive,
