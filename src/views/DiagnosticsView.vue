@@ -1,9 +1,26 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import AppIcon from '@/components/common/AppIcon.vue'
 import AppButton from '@/components/common/AppButton.vue'
 import { useNurses } from '@/composables/useNurses'
 import { useToast } from '@/composables/useToast'
+
+const DIAGNOSTICS_STORAGE_KEY = 'nurseflow_diagnostics'
+
+function loadSavedDiagnostics() {
+  try {
+    const raw = localStorage.getItem(DIAGNOSTICS_STORAGE_KEY)
+    return raw ? JSON.parse(raw) : null
+  } catch (error) {
+    return null
+  }
+}
+
+function persistDiagnostics(value) {
+  try {
+    localStorage.setItem(DIAGNOSTICS_STORAGE_KEY, JSON.stringify(value))
+  } catch (error) {}
+}
 
 const { activeNurse, logActivity } = useNurses()
 const { notify } = useToast()
@@ -92,6 +109,10 @@ const diagnostics = ref([
   },
 ])
 
+const savedDiagnostics = loadSavedDiagnostics()
+if (savedDiagnostics) diagnostics.value = savedDiagnostics
+watch(diagnostics, persistDiagnostics, { deep: true })
+
 // ── États UI ───────────────────────────────────────────────────────────────
 const showForm   = ref(false)
 const expandedId = ref(null)
@@ -149,7 +170,14 @@ function submitDiag() {
     validationNote: newDiag.value.validationNote,
   }
   diagnostics.value.unshift(d)
-  logActivity({ type: 'diagnostic', action: 'Diagnostic infirmier posé', target: `${d.probleme} (${d.code})` })
+  logActivity({
+    type: 'diagnostic',
+    action: 'Diagnostic infirmier posé',
+    target: `${d.probleme} (${d.code})`,
+    entity: 'diagnostic',
+    entityId: d.id,
+    details: { priority: d.priority, domain: d.domain },
+  })
   notify(`Diagnostic posé : ${d.probleme}`)
   newDiag.value = emptyForm()
   showForm.value = false
@@ -194,7 +222,14 @@ function saveEdit(d) {
     validationNote: editForm.value.validationNote,
     nurseName:     activeNurse.value.name,
   }
-  logActivity({ type: 'diagnostic', action: 'Diagnostic modifié', target: `${editForm.value.probleme} (${editForm.value.code})` })
+  logActivity({
+    type: 'diagnostic',
+    action: 'Diagnostic modifié',
+    target: `${editForm.value.probleme} (${editForm.value.code})`,
+    entity: 'diagnostic',
+    entityId: d.id,
+    changes: { before: d, after: diagnostics.value[idx] },
+  })
   notify(`Diagnostic mis à jour : ${editForm.value.probleme}`)
   editingId.value = null
 }
@@ -207,13 +242,27 @@ function deleteDiag(d) {
   if (!confirm(`Supprimer le diagnostic "${d.probleme}" ?`)) return
   diagnostics.value = diagnostics.value.filter(x => x.id !== d.id)
   if (expandedId.value === d.id) expandedId.value = null
+  logActivity({
+    type: 'diagnostic',
+    action: 'Diagnostic supprimé',
+    target: `${d.probleme} (${d.code})`,
+    entity: 'diagnostic',
+    entityId: d.id,
+    details: { status: d.status },
+  })
   notify(`Diagnostic supprimé.`)
 }
 
 function resolveStatus(d) {
   d.status = 'résolu'
   notify(`Diagnostic "${d.probleme}" marqué comme résolu.`)
-  logActivity({ type: 'diagnostic', action: 'Diagnostic résolu', target: `${d.probleme} (${d.code})` })
+  logActivity({
+    type: 'diagnostic',
+    action: 'Diagnostic résolu',
+    target: `${d.probleme} (${d.code})`,
+    entity: 'diagnostic',
+    entityId: d.id,
+  })
 }
 
 function priorityClass(p) {

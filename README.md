@@ -144,11 +144,15 @@ NurseFlow est entièrement responsive :
 
 ---
 
-## 📂 Données
+## 📂 Données et traçabilité
 
-Les données patients et infirmiers sont gérées en mémoire via les **composables Vue** (`useNurses`, `usePatients`), persistées en **localStorage** entre les sessions.
+Les données patients et infirmiers sont gérées via les **composables Vue** (`useNurses`, `usePatients`) et persistées en **localStorage** entre les sessions.
 
-> ⚠️ **Note PFE** : Dans sa version actuelle, l'application fonctionne avec des données simulées (mock data). L'intégration d'un backend réel (API REST / base de données) est prévue comme extension future.
+Chaque action clinique ou administrative est également enregistrée dans un journal d’audit local : prise de poste, création/modification/suppression d’un traitement, administration et changement de statut, création/modification/résolution/suppression d’un diagnostic, gestion de l’équipe, création ou modification d’un dossier patient et envoi d’un feedback. Chaque entrée contient l’infirmier signataire, l’horodatage ISO, le type d’objet, son identifiant et, lorsque pertinent, les détails avant/après.
+
+Les diagnostics infirmiers sont persistés automatiquement afin que les modifications restent disponibles après actualisation ou nouvelle session.
+
+> ⚠️ **Note PFE** : Cette version utilise encore `localStorage` comme couche de persistance locale. Pour une mise en production hospitalière, le journal devra être remplacé par une API sécurisée avec authentification, contrôle d’accès, base de données, sauvegardes et conservation réglementaire.
 
 ---
 
