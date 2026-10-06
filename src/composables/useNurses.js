@@ -168,8 +168,21 @@ export function useNurses() {
   function setActiveNurse(id) {
     const exists = nurses.value.some(n => n.id === id)
     if (exists) {
+      const previous = activeNurse.value
       activeNurseId.value = id
       persistActiveNurse()
+      const selected = nurses.value.find(n => n.id === id)
+      if (previous?.id !== selected?.id) {
+        logActivity({
+          nurseId: selected.id,
+          nurseName: selected.name,
+          type: 'session',
+          action: 'Prise de poste enregistrée',
+          target: `${selected.name} · ${selected.service}`,
+          entity: 'session',
+          entityId: selected.id,
+        })
+      }
     }
   }
 
@@ -197,12 +210,21 @@ export function useNurses() {
 
     nurses.value.push(newNurse)
     persistNurses()
+    logActivity({
+      type: 'staff',
+      action: 'Soignant ajouté à l’équipe',
+      target: `${newNurse.name} · ${newNurse.service}`,
+      entity: 'nurse',
+      entityId: newNurse.id,
+      details: { role: newNurse.role, badge: newNurse.badge },
+    })
     return newNurse
   }
 
   function removeNurse(id) {
     // Empêcher de supprimer le dernier infirmier
     if (nurses.value.length <= 1) return false
+    const nurseToRemove = nurses.value.find(n => n.id === id)
     // Si on supprime l'infirmier actif, basculer vers un autre
     if (activeNurseId.value === id) {
       const other = nurses.value.find(n => n.id !== id)
@@ -211,6 +233,13 @@ export function useNurses() {
     }
     nurses.value = nurses.value.filter(n => n.id !== id)
     persistNurses()
+    logActivity({
+      type: 'staff',
+      action: 'Soignant retiré de l’équipe',
+      target: `${nurseToRemove?.name || id}`,
+      entity: 'nurse',
+      entityId: id,
+    })
     return true
   }
 
@@ -232,6 +261,14 @@ export function useNurses() {
       initials,
     }
     persistNurses()
+    logActivity({
+      type: 'staff',
+      action: 'Profil soignant modifié',
+      target: cleanName,
+      entity: 'nurse',
+      entityId: id,
+      changes: { before: current, after: nurses.value[idx] },
+    })
     return true
   }
 
@@ -242,11 +279,15 @@ export function useNurses() {
     action = '',
     target = '',
     patient = 'Amine Mansouri',
+    entity = '',
+    entityId = '',
+    details = null,
+    changes = null,
   }) {
     const now = new Date()
     const time = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
     const item = {
-      id: Date.now(),
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
       nurseId,
       nurseName,
       type,
@@ -255,6 +296,11 @@ export function useNurses() {
       time,
       date: 'Aujourd\'hui',
       patient,
+      timestamp: now.toISOString(),
+      entity,
+      entityId,
+      details,
+      changes,
     }
     activityLog.value.unshift(item)
     // Conserver les 100 dernières activités

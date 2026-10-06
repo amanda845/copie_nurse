@@ -49,10 +49,27 @@ function closeTreatmentModal() {
 }
 function submitTreatmentModal(data) {
   if (treatmentModal.value.mode === 'add') {
-    addTreatment(data)
+    const treatmentId = addTreatment(data)
+    logActivity({
+      type: 'treatment',
+      action: 'Traitement ajouté au planning',
+      target: `${data.name} ${data.dosage} · ${data.route}`,
+      entity: 'treatment',
+      entityId: treatmentId,
+      details: { scheduled: data.scheduled },
+    })
     notify('Traitement ajouté avec succès')
   } else {
-    updateTreatment(treatmentModal.value.treatment.id, data)
+    const treatmentId = treatmentModal.value.treatment.id
+    updateTreatment(treatmentId, data)
+    logActivity({
+      type: 'treatment',
+      action: 'Traitement modifié',
+      target: `${data.name} ${data.dosage} · ${data.route}`,
+      entity: 'treatment',
+      entityId: treatmentId,
+      changes: { before: treatmentModal.value.treatment, after: data },
+    })
     notify('Traitement mis à jour')
   }
   treatmentModal.value = null
@@ -63,7 +80,16 @@ function askDelete(t) {
 }
 function doDelete() {
   if (!confirmDelete.value) return
-  deleteTreatment(confirmDelete.value.id)
+  const treatment = confirmDelete.value
+  deleteTreatment(treatment.id)
+  logActivity({
+    type: 'treatment',
+    action: 'Traitement supprimé du planning',
+    target: `${treatment.name} ${treatment.dosage} · ${treatment.route}`,
+    entity: 'treatment',
+    entityId: treatment.id,
+    details: { scheduled: treatment.scheduled },
+  })
   notify('Traitement supprimé')
   confirmDelete.value = null
 }

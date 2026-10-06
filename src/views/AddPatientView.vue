@@ -5,12 +5,21 @@ import AppButton from '@/components/common/AppButton.vue'
 import FormSection from '@/components/forms/FormSection.vue'
 import AppField from '@/components/forms/AppField.vue'
 import AppSelect from '@/components/forms/AppSelect.vue'
+import { useNurses } from '@/composables/useNurses'
 
 const router = useRouter()
 const emit = defineEmits(['notify'])
+const { logActivity } = useNurses()
 
 
 function submit() {
+  logActivity({
+    type: 'patient',
+    action: 'Dossier patient créé',
+    target: 'Nouveau dossier patient',
+    entity: 'patient',
+    entityId: 'nouveau',
+  })
   emit('notify', 'Dossier patient créé avec succès')
   router.push({ name: 'patients' })
 }

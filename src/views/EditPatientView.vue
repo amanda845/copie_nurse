@@ -6,13 +6,22 @@ import AppIcon from '@/components/common/AppIcon.vue'
 import FormSection from '@/components/forms/FormSection.vue'
 import AppField from '@/components/forms/AppField.vue'
 import AppSelect from '@/components/forms/AppSelect.vue'
+import { useNurses } from '@/composables/useNurses'
 
 const router = useRouter()
 const emit = defineEmits(['notify'])
+const { logActivity } = useNurses()
 
 const edit = true
 
 function submit() {
+  logActivity({
+    type: 'patient',
+    action: 'Dossier patient modifié',
+    target: 'Amine Mansouri · DEM-2026-001',
+    entity: 'patient',
+    entityId: 'DEM-2026-001',
+  })
   emit('notify', 'Dossier patient mis à jour')
   router.push({ name: 'patient-record', params: { id: 'DEM-2026-001' } })
 }
